@@ -1,0 +1,13 @@
+# виртуальное окружение
+.venv/
+venv/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# Allure временные файлы
+allure_results/
+
+# системные
+.DS_Store
