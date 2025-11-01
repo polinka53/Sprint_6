@@ -1,0 +1,10 @@
+# виртуальное окружение
+.venv/
+venv/
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+
+# системные
+.DS_Store
