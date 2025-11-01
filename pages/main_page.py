@@ -1,9 +1,10 @@
 from pages.base_page import BasePage
 from locators.main_locators import MainLocators
 
+
 class MainPage(BasePage):
     def open_main(self):
-        self.open("")  
+        self.open("") 
         return self
 
     # кнопки "Заказать" на главной
@@ -13,6 +14,14 @@ class MainPage(BasePage):
     def click_order_bottom(self):
         self.scroll_into_view(MainLocators.ORDER_BOTTOM_BTN)
         self.click(MainLocators.ORDER_BOTTOM_BTN)
+
+    def start_order(self, entry: str):
+        """Старт оформления заказа; логика выбора кнопки скрыта внутри PageObject."""
+        self.open_main()
+        if entry == "from_top_button":
+            self.click_order_top()
+        else:
+            self.click_order_bottom()
 
     # FAQ
     def expand_question(self, index: int):
@@ -26,27 +35,10 @@ class MainPage(BasePage):
     def click_logo_samokat(self):
         self.click(MainLocators.LOGO_SAMOKAT)
 
-    def click_logo_yandex_new_tab(self):
-        """Клик по логотипу Яндекса и переключение на вкладку Дзен."""
-        main_handle = self.driver.current_window_handle
-
-        # Клик по логотипу
+    def click_logo_yandex_new_tab(self) -> str:
+        """Клик по логотипу Яндекса и переключение на вкладку Дзен. Возвращает URL новой вкладки."""
         self.click(MainLocators.LOGO_YANDEX)
-
-        # Ждём появления второй вкладки
-        self.wait.until(lambda d: len(d.window_handles) > 1)
-
-        # Переключаемся на новую вкладку
-        for handle in self.driver.window_handles:
-            if handle != main_handle:
-                self.driver.switch_to.window(handle)
-                break
-
-        # Ждём, пока URL станет реальным 
-        self.wait.until(
-            lambda d: d.current_url and d.current_url.startswith("http") and "about:blank" not in d.current_url
-        )
-        return self.driver.current_url
+        return self.switch_to_new_tab()
 
     def is_main_opened(self) -> bool:
         try:

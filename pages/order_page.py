@@ -2,6 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from pages.base_page import BasePage
 from locators.order_locators import OrderLocators
 
+
 class OrderPage(BasePage):
     def open_order(self):
         self.open("order")
@@ -12,10 +13,12 @@ class OrderPage(BasePage):
         self.type(OrderLocators.SURNAME, surname)
         self.type(OrderLocators.ADDRESS, address)
         self.type(OrderLocators.METRO, metro)
+
         self.wait_present(OrderLocators.METRO_OPTIONS_CONTAINER)
         try:
             self.click(OrderLocators.METRO_OPTION_BY_TEXT(metro))
         except Exception:
+    
             field = self.find(OrderLocators.METRO)
             field.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
 
@@ -38,11 +41,9 @@ class OrderPage(BasePage):
         self.type(OrderLocators.COMMENT, comment)
         return self
 
-   
     def submit_and_confirm(self):
         self.scroll_into_view(OrderLocators.ORDER_SUBMIT)
         self.click(OrderLocators.ORDER_SUBMIT)
         self.wait_present(OrderLocators.MODAL)
         self.click(OrderLocators.YES_BTN)
         return self
-    
